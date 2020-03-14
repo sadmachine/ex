@@ -38,8 +38,222 @@ class ex {
 
     Hwnd[] => this.gObj.Hwnd
 
+    MarginX[]
+    {
+      get => this.gObj.MarginX
+      set => this.gObj.MarginX := value
+    }
 
+    MarginY[]
+    {
+      get => this.gObj.MarginY
+      set => this.gObj.MarginY := value
+    }
 
+    MenuBar[]
+    {
+      get => this.gObj.MenuBar
+      set => this.gObj.MenuBar := value
+    }
+
+    Name[]
+    {
+      get => this.gObj.Name
+      set => this.gObj.Name := value
+    }
+
+    Pos[] => this.gObj.Pos
+
+    Title[] 
+    {
+      get => this.gObj.Title
+      set => this.gObj.Title := value
+    }
+
+    Add(ControlType, Options := "", Text := "")
+    {
+      return this.gObj.Add(ControlTupe, Options, Text)
+    }
+
+    AddText(Options:="", Text := "")
+    {
+      return this.gObj.AddText(Options, Text)
+    }
+
+    AddEdit(Options:="", Text := "")
+    {
+      return this.gObj.AddEdit(Options, Text)
+    }
+
+    AddUpDown(Options:="", Text := "")
+    {
+      return this.gObj.AddUpDown(Options, Text)
+    }
+
+    AddPicture(Options:="", Text := "")
+    {
+      return this.gObj.AddPicture(Options, Text)
+    }
+
+    AddButton(Options:="", Text := "")
+    {
+      return this.gObj.AddButton(Options, Text)
+    }
+
+    AddCheckBox(Options:="", Text := "")
+    {
+      return this.gObj.AddCheckBox(Options, Text)
+    }
+
+    AddRadio(Options:="", Text := "")
+    {
+      return this.gObj.AddRadio(Options, Text)
+    }
+
+    AddDropDownList(Options:="", Text := "")
+    {
+      return this.gObj.AddDropDownList(Options, Text)
+    }
+
+    AddDDL(Options:="", Text := "")
+    {
+      return this.gObj.AddDropDownList(Options, Text)
+    }
+
+    AddComboBox(Options:="", Text := "")
+    {
+      return this.gObj.AddComboBox(Options, Text)
+    }
+
+    AddListBox(Options:="", Text := "")
+    {
+      return this.gObj.AddListBox(Options, Text)
+    }
+
+    AddListView(Options:="", Text := "")
+    {
+      return this.gObj.AddListView(Options, Text)
+    }
+
+    AddTreeView(Options:="", Text := "")
+    {
+      return this.gObj.AddTreeView(Options, Text)
+    }
+
+    AddLink(Options:="", Text := "")
+    {
+      return this.gObj.AddLink(Options, Text)
+    }
+
+    AddHotkey(Options:="", Text := "")
+    {
+      return this.gObj.AddHotkey(Options, Text)
+    }
+
+    AddDateTime(Options:="", Text := "")
+    {
+      return this.gObj.AddDateTime(Options, Text)
+    }
+
+    AddMonthCal(Options:="", Text := "")
+    {
+      return this.gObj.AddMonthCal(Options, Text)
+    }
+
+    AddSlider(Options:="", Text := "")
+    {
+      return this.gObj.AddSlider(Options, Text)
+    }
+
+    AddProgress(Options:="", Text := "")
+    {
+      return this.gObj.AddProgress(Options, Text)
+    }
+
+    AddGroupBox(Options:="", Text := "")
+    {
+      return this.gObj.AddGroupBox(Options, Text)
+    }
+
+    AddTab(Options:="", Text := "")
+    {
+      return this.gObj.AddTab(Options, Text)
+    }
+
+    AddStatusBar(Options:="", Text := "")
+    {
+      return this.gObj.AddStatusBar(Options, Text)
+    }
+
+    AddActiveX(Options:="", Text := "")
+    {
+      return this.gObj.AddActiveX(Options, Text)
+    }
+
+    AddCustom(Options:="", Text := "")
+    {
+      return this.gObj.AddCustom(Options, Text)
+    }
+
+    Destroy()
+    {
+      return this.gObj.Destroy()
+    }
+
+    Flash(Blink := true)
+    {
+      return this.gObj.Flash(Blink)
+    }
+
+    Hide()
+    {
+      return this.gObj.Hide()
+    }
+
+    Maximize()
+    {
+      return this.gObj.Maximize()
+    }
+
+    Restore()
+    {
+      return this.gObj.Restore()
+    }
+
+    Minimize()
+    {
+      return this.gObj.Minimize()
+    }
+
+    __Enum(NumberOfVars)
+    {
+      return this.gObj.__Enum(NumberOfVars)
+    }
+
+    OnEvent(EventName, CallBack, AddRemove := 1)
+    {
+      return this.gObj.OnEvent(EventName, CallBack, AddRemove)
+    }
+
+    Opt(Options)
+    {
+      return this.gObj.Opt(Options)
+    }    
+
+    SetFont(Options := "", FontName := "")    
+    {
+      return this.gObj.SetFont(Options, FontName)
+    }
+
+    Show(Options := "")
+    {
+      return this.gObj.Show(Options)
+    }
+
+    Submit(Hide := true)
+    {
+      return this.gObj.Submit(Hide)
+    }
   } ; End ex.Gui
 
   class Events {
