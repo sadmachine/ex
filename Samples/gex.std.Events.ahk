@@ -1,7 +1,7 @@
-#Include ../ex.ahk
+#Include ../gex.ahk
 #Persistent
 
-gObj := GuiCreate("+OwnDialogs", "Test ex.Events.Common", ex.Events.Common.New())
+gObj := GuiCreate("+OwnDialogs", "Test ex.Events.Common", gex.std.Events.New())
 
 gObj.Add("button", "w300", "Submit").Name := "btnSubmit"
 gObj["btnSubmit"].OnEvent("Click", "GuiSubmit")
