@@ -320,4 +320,126 @@ class gex {
 
   } ; End gex.std
 
+  class util {
+
+    class SelectionBox
+    {
+      __New(selections, prompt, title, options:="")
+      {
+        ; TODO: parse options to set width, font, location, AlwaysOnTop, Owner, ToolWindow
+        eObj := gex.util.SelectionBox.Events.New()
+        this.title := title
+        this.returnIndex := returnIndex
+        this.gObj := GuiCreate(options, title, eObj)
+
+        selections := gex.JoinStrArray(selections)
+        if (selections == 0)
+          return 0
+        this.gObj.Add("Text", "w300 r1", prompt) 
+
+        this.gObj.Add("DDL", "w300", selections).Name := "ddlSelections"
+        this.gObj.Add("Button", "w145 Default", "Submit").Name := "btnSubmit"
+        this.gObj.Add("Button", "xp+155 w145", "Cancel").Name := "btnCancel"
+
+        this.gObj["btnSubmit"].OnEvent("Click", "OnSubmit")
+        this.gObj["btnCancel"].OnEvent("Click", "OnCancel")
+      }
+
+      ParseOptions(options)
+      {
+        tokens := StrSplit(options, " ")
+
+        ; TODO: Implement
+        /*
+          Parse Options:
+            x<val> := x position of window
+            y<val> := y position of window
+            w<val> := width of window 
+            ff<val> := font face to use
+            fs<val> := font size to use
+            AlwaysOnTop := set window to be always on top
+            Owner<val> := set the owner of this window
+            ToolWindow := set the style of this window to be a toolwindow
+        */
+      }
+
+      LookupOption(option, tokens)
+      {
+
+      }
+
+      Show()
+      {
+        this.gObj.Show("AutoSize")
+      }
+
+      GetResult(timeout:="")
+      {
+        if (timeout != "")
+        {
+          if !WinWaitClose(this.title,, timeout)
+          {
+            ErrorLevel := 2
+            return 0
+          }
+          if this.returnIndex
+            result := this.gObj["ddlSelections"].Value
+          else
+            result := this.gObj["ddlSelections"].Text
+          this.gObj.Destroy()
+          return result
+        }
+        WinWaitClose this.title
+        if this.returnIndex
+          result := this.gObj["ddlSelections"].Value
+        else
+          result := this.gObj["ddlSelections"].Text
+        this.gObj.Destroy()
+        return result
+      }
+
+      static Call(selections, prompt, title, options:="")
+      {
+        called := gex.util.SelectionBox.New(selections, prompt, title, options)
+        called.Show()
+        return called.GetResult()
+      }
+
+      class Events {
+        OnSubmit(GuiCtrlObj, Info)
+        {
+          GuiCtrlObj.Gui.Submit()
+        }
+
+        OnCancel(GuiCtrlObj, Info)
+        {
+          GuiCtrlObj.Gui.Hide()
+          ErrorLevel := 1
+        }
+      } ; End gex.util.SelectionBox.Events
+    } ; End gex.util.SelectionBox
+
+  } ; End gex.util
+
+  static JoinStrArray(arr, delim:="|")
+  {
+    if (Type(arr) != "Array")
+      return 0
+    
+    joined := ""
+    for key,value in arr
+    {
+      if (key == 1)
+        joined .= value
+      else
+        joined .= delim value
+    }
+    return joined
+  }
+
+  static SelectionBox(selections, prompt, title, options:="")
+  {
+    return %gex.util.SelectionBox%(selections, prompt, title, options)
+  }
+
 } ; End gex
