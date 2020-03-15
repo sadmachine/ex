@@ -365,7 +365,7 @@ class gex {
 
       LookupOption(option, tokens)
       {
-
+        for index,token
       }
 
       Show()
