@@ -324,13 +324,18 @@ class gex {
 
     class SelectionBox
     {
+      static ErrorLevel := 0
+      ErrorLevel := 0
       __New(selections, prompt, title, options:="")
       {
-        ; TODO: parse options to set width, font, location, AlwaysOnTop, Owner, ToolWindow
-        eObj := gex.util.SelectionBox.Events.New()
+        eObj := gex.util.SelectionBox.Events.New(this)
+        if (options != "")
+        {
+          parsedOpts := gex.ParseOptions(options, ["x", "y", "w", "ff", "fs", "AlwaysOnTop", "ToolWindow", "Owner"])
+        }
         this.title := title
         this.returnIndex := returnIndex
-        this.gObj := GuiCreate(options, title, eObj)
+        this.gObj := GuiCreate(, title, eObj)
 
         selections := gex.JoinStrArray(selections)
         if (selections == 0)
@@ -345,28 +350,6 @@ class gex {
         this.gObj["btnCancel"].OnEvent("Click", "OnCancel")
       }
 
-      ParseOptions(options)
-      {
-        tokens := StrSplit(options, " ")
-
-        ; TODO: Implement
-        /*
-          Parse Options:
-            x<val> := x position of window
-            y<val> := y position of window
-            w<val> := width of window 
-            ff<val> := font face to use
-            fs<val> := font size to use
-            AlwaysOnTop := set window to be always on top
-            Owner<val> := set the owner of this window
-            ToolWindow := set the style of this window to be a toolwindow
-        */
-      }
-
-      LookupOption(option, tokens)
-      {
-        for index,token
-      }
 
       Show()
       {
@@ -379,7 +362,7 @@ class gex {
         {
           if !WinWaitClose(this.title,, timeout)
           {
-            ErrorLevel := 2
+            this.ErrorLevel := 2
             return 0
           }
           if this.returnIndex
@@ -402,10 +385,17 @@ class gex {
       {
         called := gex.util.SelectionBox.New(selections, prompt, title, options)
         called.Show()
-        return called.GetResult()
+        result := called.GetResult()
+        gex.util.SelectionBox.ErrorLevel := called.ErrorLevel
+        return result
       }
 
       class Events {
+        __New(invoker:="")
+        {
+          this.invoker := invoker
+        }
+
         OnSubmit(GuiCtrlObj, Info)
         {
           GuiCtrlObj.Gui.Submit()
@@ -414,7 +404,8 @@ class gex {
         OnCancel(GuiCtrlObj, Info)
         {
           GuiCtrlObj.Gui.Hide()
-          ErrorLevel := 1
+          if IsObject(this.invoker)
+            this.invoker.ErrorLevel := 1
         }
       } ; End gex.util.SelectionBox.Events
     } ; End gex.util.SelectionBox
@@ -440,6 +431,48 @@ class gex {
   static SelectionBox(selections, prompt, title, options:="")
   {
     return %gex.util.SelectionBox%(selections, prompt, title, options)
+  }
+
+  static ParseOptions(optionStr, optionNames)
+  {
+    tokens := StrSplit(optionStr, " ")
+    parsed := Map()
+    ; TODO: Implement
+    /*
+      Parse Options:
+        x<val> := x position of window
+        y<val> := y position of window
+        w<val> := width of window 
+        ff<val> := font face to use
+        fs<val> := font size to use
+        AlwaysOnTop := set window to be always on top
+        Owner<val> := set the owner of this window
+        ToolWindow := set the style of this window to be a toolwindow
+    */
+    for index,optionName in optionNames
+    {
+      parsed[optionName] := gex.LookupOption(optionName, tokens)
+    }
+
+    return parsed
+  }
+
+  static LookupOption(optionName, tokens)
+  {
+    value:=""
+    for index,token in tokens
+    {
+      found := InStr(token, optionName)
+      if (found==1)
+      {
+        valueStart := found + StrLen(optionName)
+        value := SubStr(token, valueStart)
+        if (value == "")
+          return true
+        return value
+      }
+    }
+    return ""
   }
 
 } ; End gex
